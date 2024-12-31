@@ -5,12 +5,32 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
+import axios from "axios";
+
 function Home() {
+  const [Apiresponse, setApiresponse] = useState("");
   const [selectedDay, setSelectedDay] = useState("");
 
   const handleChange = (event) => {
     setSelectedDay(event.target.value);
+    console.log(event.target.value);
+    console.log(selectedDay);
   };
+  const handleButtonClick = async () => {
+    try{
+      const response = await axios.get("http://localhost:5001/getMenu",{
+        headers:{
+          'menuday' : selectedDay,
+        }
+      });
+      setApiresponse(response.data);
+      console.log(response.data);
+    } catch(error){
+      console.error("Error fetching API:::", error);
+      setApiresponse("API response failed");
+    }
+  }
+
   return (
     <div style={{padding:"20px"}}>
       <FormControl fullWidth>
@@ -24,7 +44,7 @@ function Home() {
             value={selectedDay}
             onChange={handleChange}
             style={{marginTop:"10px"}}
-          >
+            >
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
@@ -41,7 +61,7 @@ function Home() {
             variant="contained"
             color="primary"
             style={{ width: '150px', margin: '20px auto', display:'block' }}
-            //onClick={handleButtonClick}
+            onClick={handleButtonClick}
           >
             Submit
           </Button>
