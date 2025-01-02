@@ -4,10 +4,29 @@ import Home from "./Home.js";
 import ErrorHand from "./ErrorHand.js";
 import MyAppBar from "./MyAppBar.js";
 import About from "./About.js";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+
+
+// Define a custom dark theme
+const theme = createTheme({
+  // palette: {
+  //   primary: {
+  //     main: '#212121', // Dark gray
+  //   },
+    palette: {
+      mode: 'dark',
+    },
+    // text: {
+    //   primary: '#ffffff', // White text
+    // },
+  });
 
 function App() {
   return (
     <div>
+       <ThemeProvider theme={theme}>
+       <CssBaseline />
       <MyAppBar />
       <Router>
         <Routes>
@@ -16,6 +35,8 @@ function App() {
           <Route path="/about" element={<About />}/>
         </Routes>
       </Router>
+      </ThemeProvider>
+
     </div>
   );
 }
